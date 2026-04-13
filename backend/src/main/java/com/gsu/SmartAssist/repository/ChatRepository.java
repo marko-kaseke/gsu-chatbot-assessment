@@ -1,0 +1,6 @@
+package com.gsu.SmartAssist.repository;
+
+import com.gsu.SmartAssist.entity.Chat;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ChatRepository extends JpaRepository<Chat, Long> {}

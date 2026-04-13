@@ -1,0 +1,153 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-container
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: smartassistdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -uroot -ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
+    networks:
+        - smartassist-net
+      
+  postgres-db:
+    image: postgres:15
+    container_name: postgres-container
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: keycloakdb
+      POSTGRES_USER: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
+    networks:
+        - smartassist-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.5.4
+    container_name: keycloak-container
+    restart: unless-stopped
+    environment:
+      KEYCLOAK_ADMIN: kaseke
+      KEYCLOAK_ADMIN_PASSWORD: 1
+      #KC_DB: dev-file #for development
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres-db:5432/keycloakdb
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: password
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY_HEADERS: xforwarded
+      KC_HEALTH_ENABLED: "true"
+      KC_METRICS_ENABLED: "true"
+    #command: start --hostname=10.45.9.126 --hostname-strict=false
+    command: start --import-realm --hostname=10.45.9.126 --hostname-strict=false
+    ports:
+      - "8080:8080"   # Host 8080 maps to container 8080
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+      - ./realm-export.json:/opt/keycloak/data/import/realm-export.json
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo -e 'GET /realms/gsu-realm HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3 && grep -q '200 OK' <&3"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
+    networks:
+        - smartassist-net
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+
+  backend:
+    image: markokaseke/smartassist-backend:1.0.0
+    container_name: backend-container
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/smartassistdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      FILE_UPLOAD_DIR: /smartassist-files
+      OLLAMA_URL: http://ollama:11434
+      
+      # OAuth2 Client configuration
+      #KEYCLOAK_BASE_URL: http://10.45.9.126:8080
+      KEYCLOAK_BASE_URL: http://keycloak:8080
+      KEYCLOAK_REALM: gsu-realm
+      APP_BASE_URL: http://10.45.9.126
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT_SECRET: Ti1AS3czT4CzrzKpX6AkJTzsXAw3TPZw
+    ports:
+      - "8081:8081"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+    volumes:
+      - ./smartassist-files:/smartassist-files
+      - ./storage:/storage
+    networks:
+        - smartassist-net
+      
+  ollama:
+    image: ollama/ollama:0.20.6
+    container_name: ollama-container
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    networks:
+        - smartassist-net 
+
+  ollama-pull:
+    image: ollama/ollama:0.20.6
+    depends_on:
+        - ollama
+    entrypoint: ["sh", "-c"]
+    command: ollama pull llama3
+    restart: "no"
+    networks:
+        - smartassist-net
+    
+  frontend:
+    image: markokaseke/smartassist-frontend:1.0.0
+    container_name: frontend-container
+    ports:
+        - "80:80"
+    depends_on:
+        - backend
+    restart: unless-stopped  
+    networks:
+        - smartassist-net
+
+volumes:
+  mysql_db_data:
+  postgres_db_data:
+  keycloak_data:
+  ollama_data:
+  #You do not need to declare ./smartassist-files or ./storage because they're bind mounts (host directories).
+  #Make sure smartassist-files/ and storage/ exist on your host machine (in the same directory as docker-compose.yml), or Docker will create them as empty folders.
+
+networks:
+  smartassist-net:
+    driver: bridge

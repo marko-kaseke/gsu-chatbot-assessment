@@ -1,0 +1,18 @@
+<div class="chat-container">
+  <div class="chat-header">GSU SmartAssist</div>
+
+  <div class="chat-messages">
+    <div *ngFor="let msg of messages" [ngClass]="msg.sender">
+      <div class="message-text">{{ msg.text }}</div>
+    </div>
+
+    <div *ngIf="isSending" class="bot">
+      <div class="message-text">SmartAssist is typing...</div>
+    </div>
+  </div>
+
+  <form class="chat-input" [formGroup]="form" (ngSubmit)="sendMessage()">
+    <input formControlName="userMessage" type="text" placeholder="Type your message..." />
+    <button type="submit" [disabled]="form.invalid || isSending">Send</button>
+  </form>
+</div>

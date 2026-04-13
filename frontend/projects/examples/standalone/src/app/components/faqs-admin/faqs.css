@@ -1,0 +1,151 @@
+/* Container for the FAQs page */
+.faqs-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f4f7fc;
+  border-radius: 8px;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Button container for the 'Create' button */
+.create-button-container {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.action-button {
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s ease;
+  border: none;
+  margin-left: 10px;
+}
+
+.create-button {
+  background-color: #6200ea;
+  color: white;
+}
+
+.edit-button {
+  background-color: #ffb300;
+  color: white;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.action-button:hover {
+  transform: scale(1.05);
+}
+
+.action-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Table Styles */
+.faqs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.faqs-table th,
+.faqs-table td {
+  padding: 12px;
+  text-align: left;
+}
+
+.faqs-table th {
+  background-color: #6200ea;
+  color: white;
+  font-weight: bold;
+}
+
+.faqs-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.faqs-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.table-scroll-container {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* New Action Column */
+.faqs-table td.action-column {
+  text-align: center;
+}
+
+/* Pagination Controls */
+.pagination-controls {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination-controls button {
+  padding: 10px 20px;
+  margin: 0 15px;
+  font-size: 1rem;
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s ease;
+}
+
+.pagination-controls button:hover {
+  background-color: #4a00b0;
+  transform: scale(1.05);
+}
+
+.pagination-controls button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.pagination-controls span {
+  font-size: 1rem;
+  color: #333;
+  margin: 0 20px;
+}
+
+@media (max-width: 600px) {
+  .pagination-controls button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+
+  .pagination-controls span {
+    font-size: 0.9rem;
+  }
+
+  .faqs-table th,
+  .faqs-table td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .faqs-table td.action-column {
+    font-size: 0.9rem;
+  }
+}

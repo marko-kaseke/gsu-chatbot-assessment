@@ -1,0 +1,40 @@
+<div class="chat-history-container">
+  <h2>Chat Logs</h2>
+
+  <!-- Show loading spinner while data is being fetched -->
+  <div *ngIf="isLoading" class="loading-spinner">Loading...</div>
+
+  <!-- Show error message if there's an issue fetching data -->
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <!-- Chat logs table -->
+  <div class="table-scroll-container" *ngIf="!isLoading && !errorMessage">
+    <table class="chat-history-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Session ID</th>
+          <th>Message</th>
+          <th>Response</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let chat of pagedChatLogs">
+          <td>{{ chat.id }}</td>
+          <td>{{ chat.sessionId }}</td>
+          <td>{{ chat.message }}</td>
+          <td>{{ chat.response }}</td>
+          <td>{{ chat.timestamp }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-controls">
+      <button (click)="prevPage()" [disabled]="currentPage === 0">Previous</button>
+      <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">Next</button>
+    </div>
+  </div>
+</div>

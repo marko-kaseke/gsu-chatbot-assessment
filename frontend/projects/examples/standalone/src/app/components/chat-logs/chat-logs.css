@@ -1,0 +1,69 @@
+.chat-history-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f4f7fc;
+  border-radius: 8px;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.loading-spinner {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #6200ea;
+}
+
+.chat-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-history-table th,
+.chat-history-table td {
+  padding: 12px;
+  text-align: left;
+}
+
+.chat-history-table th {
+  background-color: #6200ea;
+  color: white;
+  font-weight: bold;
+}
+
+.chat-history-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.chat-history-table tr:hover {
+  background-color: #f1f1f1;
+
+/* Pagination controls */
+.pagination-controls {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination-controls button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 1rem;
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

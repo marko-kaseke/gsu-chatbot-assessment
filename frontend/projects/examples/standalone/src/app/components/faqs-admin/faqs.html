@@ -1,0 +1,51 @@
+<div class="faqs-container">
+  <h2>Frequently Asked Questions</h2>
+
+  <!-- Create Button on top -->
+  <div class="create-button-container">
+    <!-- Use [routerLink] to navigate to /create-faq -->
+    <button class="action-button create-button" [routerLink]="'/create-faq'">Create FAQ</button>
+  </div>
+
+  <!-- Show loading spinner while data is being fetched -->
+  <div *ngIf="isLoading" class="loading-spinner">Loading...</div>
+
+  <!-- Show error message if there's an issue fetching data -->
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <!-- FAQs table -->
+  <div class="table-scroll-container" *ngIf="!isLoading && !errorMessage">
+    <table class="faqs-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Category</th>
+          <th>Question</th>
+          <th>Answer</th>
+          <th>Keywords</th>
+          <th>Actions</th> <!-- Added Actions Column -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let faq of pagedFaqs">
+          <td>{{ faq.id }}</td>
+          <td>{{ faq.category }}</td>
+          <td>{{ faq.question }}</td>
+          <td>{{ faq.answer }}</td>
+          <td>{{ faq.keywords }}</td>
+          <td class="action-column">
+            <!-- Added Action Column for Edit/Delete -->
+            <button class="action-button delete-button" (click)="deleteFAQ(faq.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-controls">
+      <button (click)="prevPage()" [disabled]="currentPage === 0">Previous</button>
+      <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">Next</button>
+    </div>
+  </div>
+</div>
