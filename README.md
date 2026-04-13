@@ -13,7 +13,7 @@ The system combines:
 - A modern Angular frontend chat interface
 - Docker-based deployment for portability and scalability
 
-=====================================================================================================
+=============================================================================
 
 B.	System Architecture
 🔹 High-Level Architecture
@@ -30,7 +30,7 @@ B.	System Architecture
         |
         |----> Ollama (Llama3 AI Model Server)
 		
-======================================================================================================		
+=============================================================================		
 		
 		
 C.	Technology Stack
@@ -62,7 +62,7 @@ DevOps / Deployment
 - Docker & Docker Compose
 - Nginx (optional reverse proxy)		
 
-======================================================================================================
+=============================================================================
 
 D.	Features
 1. Student Features
@@ -77,7 +77,7 @@ D.	Features
 - View chat logs
 - Monitor system usage
 
-======================================================================================================
+=============================================================================
 
 E.	Security Implementation
 - Keycloak authentication (OAuth2 / OpenID Connect)
@@ -87,7 +87,7 @@ E.	Security Implementation
 - Rate limiting on /api/chat
 - Secure storage of secrets via environment variables
 
-======================================================================================================
+=============================================================================
 
 F.	Database Design
 MySQL Tables
@@ -95,7 +95,7 @@ MySQL Tables
 - KnowledgeBase: id, category, question, answer, keywords
 - Chats: id, message, response, timestamp
 
-======================================================================================================
+=============================================================================
 
 G.	API Endpoints
 1. Authentication (via Keycloak)
@@ -117,7 +117,7 @@ Delete FAQ
 GET /api/admin/chat-logs
 Returns all chat history (admin only)
 
-======================================================================================================
+=============================================================================
 
 H.	AI Integration (Ollama + LLaMA 3)
 The chatbot uses a hybrid approach:
@@ -126,7 +126,7 @@ The chatbot uses a hybrid approach:
 3. Sends query to Ollama LLaMA 3 model
 4. Returns contextual response to user
 
-======================================================================================================
+=============================================================================
 
 I.	Frontend (Angular)
 Features
@@ -138,7 +138,7 @@ Features
 - Responsive UI (mobile + desktop)
 
 
-======================================================================================================
+=============================================================================
 
 
 ⚙️ Setup & Deployment Instructions
