@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface ChatLogs {
   id: number;
@@ -15,8 +16,7 @@ export interface ChatLogs {
   providedIn: 'root'
 })
 export class ChatLogsService {
-  //private apiUrl = 'http://localhost:8081/api/admin/chat-logs';  // backend endpoint for fetching chat logs //local dev only
-  private apiUrl = 'http://10.45.9.126:8081/api/admin/chat-logs'; ////for docker/network stable
+  private readonly apiUrl = `${environment.api.baseUrl}/admin/chat-logs`;  // backend endpoint for fetching chat logs
 
   constructor(private http: HttpClient) {}
 

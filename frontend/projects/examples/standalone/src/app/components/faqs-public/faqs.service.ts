@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Faqs {
   id: number;
@@ -14,8 +15,7 @@ export interface Faqs {
   providedIn: 'root'
 })
 export class FaqsService {
-  //private apiUrl = 'http://localhost:8081/api/faqs';  // backend endpoint for fetching faqs   //local dev only
-  private apiUrl = 'http://10.45.9.126:8081/api/faqs'; ////for docker/network stable
+  private readonly apiUrl = `${environment.api.baseUrl}/faqs`;  // backend endpoint for fetching faqs
 
   constructor(private http: HttpClient) {}
 

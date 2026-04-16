@@ -887,20 +887,20 @@
       "clientId": "smartassist-frontend-client",
       "name": "SmartAssist Frontend Client",
       "description": "",
-      "rootUrl": "http://10.45.9.126",
-      "adminUrl": "http://10.45.9.126",
-      "baseUrl": "http://10.45.9.126",
+      "rootUrl": "http://localhost",
+      "adminUrl": "http://localhost",
+      "baseUrl": "http://localhost",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost:8082/*",
-        "http://10.45.9.126/*"
+        "http://localhost:80/*",
+        "http://localhost/*"
       ],
       "webOrigins": [
-        "http://10.45.9.126",
-        "http://localhost:8082"
+        "http://localhost",
+        "http://localhost:80"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -918,7 +918,7 @@
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
         "standard.token.exchange.enabled": "false",
-        "post.logout.redirect.uris": "http://localhost:8082/##http://10.45.9.126/",
+        "post.logout.redirect.uris": "http://localhost:80/##http://localhost/",
         "frontchannel.logout.session.required": "true",
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",

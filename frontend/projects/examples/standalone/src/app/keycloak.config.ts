@@ -7,24 +7,30 @@ import {
   AutoRefreshTokenService,
   UserActivityService
 } from 'keycloak-angular';
+import { environment } from '../environments/environment';
 
+//localhostCondition
 /*const localhostCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
   urlPattern: /^(http:\/\/localhost:8081)(\/.*)?$/i
 });*/
 
-//for docker/network stable
-const localhostCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
-  urlPattern: /^(http:\/\/(localhost|10\.45\.9\.126):8081)(\/.*)?$/i
+//backendCondition ----------------
+const backendCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
+  urlPattern: environment.interceptor.urlPattern
 });
 
 export const provideKeycloakAngular = () =>
   provideKeycloak({
-    config: {
+    /*config: {
       realm: 'gsu-realm',
-      //url: 'http://localhost:8080', //local dev only
-	  url: 'http://10.45.9.126:8080', //for docker/network stable
+      url: 'http://localhost:8080', //local dev only
       clientId: 'smartassist-frontend-client'
-    },
+    },*/
+	config: {
+		realm: environment.keycloak.realm,
+		url: environment.keycloak.url,
+		clientId: environment.keycloak.clientId
+	},
     initOptions: {
       onLoad: 'check-sso',
       silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
@@ -41,7 +47,8 @@ export const provideKeycloakAngular = () =>
       UserActivityService,
       {
         provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
-        useValue: [localhostCondition]
+        //useValue: [localhostCondition]
+		useValue: [backendCondition]   // <--- critical fix for dockerized app
       }
     ]
   });

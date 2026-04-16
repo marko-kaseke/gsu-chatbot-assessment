@@ -157,10 +157,11 @@ Copy the following files to one folder in the server:
 📦 Step 2: Deploy application
 In CMD, navigate to the folder with the files, start docker and run these commands:
 - docker compose pull
-- docker compose up -d --build
+- docker compose up -d
+- docker exec -it ollama-container ollama pull llama3
 
 📦 Step 3: Keycloak setup
-- Open: http://<server-ip>:8080
+- Open: http://localhost:8080
 - Login:
 	username: kaseke
 	password: 1

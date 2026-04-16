@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:8082", allowedHeaders = "*")  // Allow CORS for all /api/** endpoints
+//@CrossOrigin(origins = "http://localhost:80", allowedHeaders = "*")  // Allow CORS for all /api/** endpoints
 public class ChatController {
     private ChatService chatService;
 

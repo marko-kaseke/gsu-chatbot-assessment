@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 // Define the structure of a chat message
 export interface ChatMessage {
@@ -13,9 +14,8 @@ export interface ChatMessage {
   providedIn: 'root'
 })
 export class ChatService {
-  //private readonly apiUrl = 'http://localhost:8081/api/chat';  // API URL for backend communication //local dev only
-  private readonly apiUrl = 'http://10.45.9.126:8081/api/chat'; ////for docker/network stable
-
+  private readonly apiUrl = `${environment.api.baseUrl}/chat`;  // API URL for backend communication
+  
   constructor(private http: HttpClient) {}
 
 
